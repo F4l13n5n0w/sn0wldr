@@ -14,7 +14,6 @@ mkdir tmp
 mkdir output
 mkdir input
 
-#raw_cs_filename_compiled=$lhost'_'$lport'_'$arch'_https.exe'
 rawscfilename=$lhost'_'$lport'_https.bin'
 rawscfilename_enc=$rawscfilename'.enc'
 
