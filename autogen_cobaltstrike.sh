@@ -7,7 +7,7 @@
 lhost="10.0.0.186"
 lport="9443"
 arch="x64"
-c2type="Cobalt Strike"
+c2type="cobaltstrike"
 
 echo 'lhost: '$lhost
 echo 'lport: '$lport
