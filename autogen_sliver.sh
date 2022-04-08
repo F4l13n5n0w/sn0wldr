@@ -28,8 +28,8 @@ mkdir output
 
 rawscfilename='sliver.bin'
 rawscfilename_enc=$rawscfilename'.enc'
-final_cs_filename = 'monoc2loader_'$c2type'.cs'
-final_exe_filename = 'monoc2loader_'$c2type'_'$arch'.exe'
+final_cs_filename='monoc2loader_'$c2type'.cs'
+final_exe_filename='monoc2loader_'$c2type'_'$arch'.exe'
 
 sleep 2
 
