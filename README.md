@@ -16,7 +16,7 @@ sudo apt-get install mono-complete
 * Meterpreter
 * Covenent
 * Sliver
-* Cobalt Strike
+* Cobalt Strike test
 
 
 ### Feature
