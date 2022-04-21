@@ -34,3 +34,4 @@ sudo apt-get install mono-complete
 
 * Add bananameowloader for even better AV bypass
 * Add InlineExecute-Assembly BoF support for Sliver
+
