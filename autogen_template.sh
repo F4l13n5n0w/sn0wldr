@@ -11,15 +11,6 @@
 ## parameter inputs, make sure fill in the following parameters correctly
 ## [!!!] lhost and lport are not in use for this script, make sure arch and c2type are correct, 
 ## make sure c2type has no space in middle.
-lhost="10.0.0.145"
-lport="8888"
-arch="x64"
-c2type="sliver"
-
-echo 'lhost: '$lhost
-echo 'lport: '$lport
-echo 'arch:  '$arch
-echo 'c2type:'$c2type
 
 mkdir tmp
 mkdir output
@@ -34,6 +25,9 @@ mkdir output
 ### Move the sliver.bin to folder input if required, then run the autogen script.
 
 # [!!!] this file name can be any but have to be same as your c2 shellcode payload file in the input folder:
+
+arch="x64"
+c2type="sliver"
 rawscfilename='sliver.bin'
 
 rawscfilename_enc=$rawscfilename'.enc'

