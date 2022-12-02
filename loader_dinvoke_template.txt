@@ -10,7 +10,8 @@ namespace aesloader2
 {
     public sealed class Loader
     {
-        public static string strTargetProcess = "C:\\Windows\\System32\\notepad.exe";
+        public static string strTargetProcess = "C:\\Windows\\System32\\svchost.exe";
+        //public static string strTargetProcess = "C:\\Windows\\System32\\notepad.exe";
         //public static string strTargetProcess = "C:\\Windows\\SysWOW64\\notepad.exe";
 
 
