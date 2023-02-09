@@ -42,7 +42,9 @@ sudo apt install mono-complete
 ### Guide
 
 1. Generate shellcode for supported C2 implant in raw format:
-   For Sliver:
+   
+For Sliver:
+Due to the latest Sliver has shellcode encoding enabled by default which somehow break the halogate loader, so need to disable it when generate the shellcode by issue `-G`. Evasion and Obfuscation can both be enabled for better EDR bypass:
 
 ```
 ### To Generate a Sliver implant shellcode without obfuscation:
